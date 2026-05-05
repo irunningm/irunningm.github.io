@@ -13,20 +13,21 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: MM
+title: 家庭实验室 404
 email:
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-twitter_username: username
-github_username: username
-minimal_mistakes_skin: default
+  把家当作技术实验场，记录每一次智能化改造。NAS、智能家居、自动化脚本，一切让家更聪明的尝试。
+url: https://irunningm.github.io
+baseurl: ""
+twitter_username: irunningm
+github_username: irunningm
+minimal_mistakes_skin: dark
 search: true
+locale: zh-CN
 
 # Build settings
 markdown: kramdown
-remote_theme: mmistakes/minimal-mistakes
+theme: minimal-mistakes-jekyll
 # Outputting
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
@@ -58,34 +59,19 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "First Lastname"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
+  name   : "irunningm"
+  avatar : "https://github.com/irunningm.png"
+  bio    : "这是我的 living lab。NAS、智能家居、自动化脚本——一切让家更聪明的尝试都在这里记录。"
   links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "https://"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://github.com/irunningm"
 
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://github.com/irunningm"
 
 defaults:
   # _posts
@@ -99,6 +85,8 @@ defaults:
       comments: true
       share: true
       related: true
+      show_date: true
+      date_format: "%Y-%m-%d"
   # _pages
   - scope:
       path: "_pages"
@@ -106,6 +94,37 @@ defaults:
     values:
       layout: single
       author_profile: true
+      show_date: false
+
+# Social sharing
+social:
+  type: Person
+  name: irunningm
+  links:
+    - https://github.com/irunningm
+
+# Analytics (add your ID when ready)
+# analytics:
+#   provider: google-gtag
+#   google:
+#     tracking_id: G-XXXXXXXXXX
+#     anonymize_ip: false
+
+# Comments (using Giscus - GitHub Discussions based comments)
+comments:
+  provider: "giscus"
+  giscus:
+    repo: "irunningm/irunningm.github.io"
+    repo_id: ""
+    category: "Comments"
+    category_id: ""
+    mapping: "pathname"
+    reactions_enabled: "1"
+    theme: "dark"
+    strict_matching: 1
+    input_position: "top"
+    loading: "lazy"
+    lang: "zh-CN"
 
 category_archive:
   type: liquid

@@ -1,0 +1,125 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+// Custom variables
+$serif: "Noto Serif SC", "Source Han Serif SC", "SimSun", Georgia, Times, serif !default;
+$sans-serif: "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
+$monospace: "JetBrains Mono", "Fira Code", "SF Mono", Monaco, Consolas, monospace !default;
+
+// Override theme defaults
+$base-font-family: $sans-serif;
+$heading-font-family: $sans-serif;
+$caption-font-family: $serif;
+
+$base-font-size: 16px !default;
+$base-font-weight: 400 !default;
+$small-font-size: $base-font-size * 0.875 !default;
+$base-line-height: 1.8 !default;
+
+// Code blocks
+$code-font-family: $monospace;
+$code-font-size: 0.85em !default;
+
+// Import theme
+@import "minimal-mistakes";
+
+// Custom styles
+
+// Better Chinese typography
+body {
+  font-family: $sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+// Improve code blocks
+pre {
+  font-family: $monospace;
+  font-size: $code-font-size;
+  border-radius: 6px;
+  padding: 1em;
+  line-height: 1.6;
+}
+
+code {
+  font-family: $monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+// Better table styling
+table {
+  font-size: 0.95em;
+
+  th {
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  td, th {
+    padding: 0.75em 1em;
+  }
+}
+
+// Improve readability
+div.page__content {
+  p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+  }
+
+  li {
+    margin-bottom: 0.5em;
+    line-height: 1.7;
+  }
+}
+
+// Custom scrollbar for webkit browsers
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+// Better blockquote styling
+blockquote {
+  border-left: 4px solid #4a9eff;
+  padding-left: 1em;
+  margin-left: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+// Archive item styling
+.archive__item-title {
+  font-weight: 600;
+}
+
+// Improve search styling
+.search-content {
+  .archive__item-title {
+    font-size: 1.1em;
+  }
+}
