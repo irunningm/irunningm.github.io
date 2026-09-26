@@ -1,0 +1,8 @@
+# Preserve the existing copyright status; do not opt articles into a new license.
+copyright:
+  license:
+    template: false
+  brief: 保留所有权利。
+  verbose: 未另行声明的内容，版权归作者所有。
+tabs:
+  posts: 归档

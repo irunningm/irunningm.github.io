@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+BLOG_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$BLOG_ROOT"
+if [[ -x "$BLOG_ROOT/.runtime/ruby/bin/ruby" ]]; then
+  BLOG_RUBY="$BLOG_ROOT/.runtime/ruby"
+  export PATH="$BLOG_RUBY/bin:$PATH"
+  export LD_LIBRARY_PATH="$BLOG_RUBY/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+  export RUBYLIB="$BLOG_RUBY/lib/ruby/3.3.0:$BLOG_RUBY/lib/ruby/3.3.0/x86_64-linux${RUBYLIB:+:$RUBYLIB}"
+fi
+if ! command -v ruby >/dev/null; then
+  echo 'Ruby is missing. See README.md for setup instructions.' >&2
+  exit 1
+fi
+export BUNDLE_PATH="$BLOG_ROOT/vendor/bundle"
+export BUNDLE_APP_CONFIG="$BLOG_ROOT/.bundle"
+export BUNDLE_USER_HOME="$BLOG_ROOT/.bundle/user"
+export GEM_HOME="$BLOG_ROOT/.runtime/gems"
+export GEM_PATH="$GEM_HOME:$(ruby -rrbconfig -e 'print RbConfig::CONFIG["rubylibprefix"] + "/gems/" + RbConfig::CONFIG["ruby_version"]')"
+export PATH="$GEM_HOME/bin:$PATH"
+blog_bundle() { ruby -S bundle "$@"; }
+case "${1:-serve}" in
+  setup)
+    if ! ruby -rbundler -e 'puts Bundler::VERSION' >/dev/null 2>&1; then
+      ruby -S gem install bundler -v 2.5.22 --no-document
+    fi
+    blog_bundle install --jobs 2 --retry 3
+    ;;
+  build)
+    shift
+    JEKYLL_ENV=production blog_bundle exec jekyll build --strict_front_matter "$@"
+    ;;
+  preview-build)
+    shift
+    blog_bundle exec jekyll build --config _config.yml,_config.local.yml --drafts --strict_front_matter "$@"
+    ;;
+  check)
+    shift
+    blog_bundle exec htmlproofer "${1:-_site}" --disable-external --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
+    ;;
+  serve)
+    shift || true
+    blog_bundle exec jekyll serve --config _config.yml,_config.local.yml --drafts --host 127.0.0.1 --port 4000 "$@"
+    ;;
+  *) echo 'Usage: scripts/blog {setup|build|preview-build|check|serve}' >&2; exit 2 ;;
+esac

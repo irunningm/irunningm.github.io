@@ -1,134 +1,146 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
+# Chirpy Starter configuration; keep theme layouts and styles upstream.
+theme: jekyll-theme-chirpy
+lang: zh-CN
+timezone: Asia/Shanghai
 title: 家庭实验室 404
-email:
-description: >- # this means to ignore newlines until "baseurl:"
-  把家当作技术实验场，记录每一次智能化改造。NAS、智能家居、自动化脚本，一切让家更聪明的尝试。
+tagline: 智能家居策略运营，会写代码，也爱研究厨具。
+description: WongLing 的个人博客。在小米中国区（销售）参谋部从事智能家居策略运营，具备一定软件工程能力，喜欢研究厨具。这里记录家庭实验室、代码与日常实践。
 url: https://irunningm.github.io
-baseurl: ""
-twitter_username: irunningm
-github_username: irunningm
-minimal_mistakes_skin: dark
-search: true
-locale: zh-CN
-
-# Build settings
-markdown: kramdown
-remote_theme: mmistakes/minimal-mistakes
-# Outputting
-permalink: /:categories/:title/
-paginate: 5 # amount of posts to show
-paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-
-include:
-  - _pages
-
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
-
-# Plugins (previously gems:)
-plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
-  - jekyll-include-cache
-
-author:
-  name   : "irunningm"
-  avatar : "https://github.com/irunningm.png"
-  bio    : "这是我的 living lab。NAS、智能家居、自动化脚本——一切让家更聪明的尝试都在这里记录。"
-  links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/irunningm"
-
-footer:
-  links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/irunningm"
-
-defaults:
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true
-      show_date: true
-      date_format: "%Y-%m-%d"
-  # _pages
-  - scope:
-      path: "_pages"
-      type: pages
-    values:
-      layout: single
-      author_profile: true
-      show_date: false
-
-# Social sharing
+github:
+  username: irunningm
 social:
-  type: Person
-  name: irunningm
+  name: WongLing
   links:
-    - https://github.com/irunningm
-
-# Analytics (add your ID when ready)
-# analytics:
-#   provider: google-gtag
-#   google:
-#     tracking_id: G-XXXXXXXXXX
-#     anonymize_ip: false
-
-# Comments (using Giscus - GitHub Discussions based comments)
+  - https://github.com/irunningm
+webmaster_verifications:
+  google: null
+  bing: null
+  alexa: null
+  yandex: null
+  baidu: null
+  facebook: null
+analytics:
+  google:
+    id: null
+  goatcounter:
+    id: null
+  umami:
+    id: ebd78267-8cdc-485f-9209-8112ca140231
+    domain: https://analytics.64.110.75.0.sslip.io
+  matomo:
+    id: null
+    domain: null
+  cloudflare:
+    id: null
+  fathom:
+    id: null
+pageviews:
+  provider: null
+theme_mode: null
+cdn: null
+avatar: https://github.com/irunningm.png
+social_preview_image: null
+toc: true
+actions:
+  edit_post:
+    enabled: false
+    url: ''
+    static_url: false
 comments:
-  provider: "giscus"
+  provider: null
+  disqus:
+    shortname: null
+  utterances:
+    repo: null
+    issue_term: null
   giscus:
-    repo: "irunningm/irunningm.github.io"
-    repo_id: ""
-    category: "Comments"
-    category_id: ""
-    mapping: "pathname"
-    reactions_enabled: "1"
-    theme: "dark"
-    strict_matching: 1
-    input_position: "top"
-    loading: "lazy"
-    lang: "zh-CN"
-
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
+    repo: null
+    repo_id: null
+    category: null
+    category_id: null
+    mapping: null
+    strict: null
+    input_position: null
+    lang: null
+    reactions_enabled: null
+assets:
+  self_host:
+    enabled: null
+    env: null
+pwa:
+  enabled: true
+  cache:
+    enabled: true
+    deny_paths: null
+paginate: 10
+baseurl: ''
+kramdown:
+  footnote_backlink: '&#8617;&#xfe0e;'
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+collections:
+  tabs:
+    output: true
+    sort_by: order
+defaults:
+- scope:
+    path: ''
+    type: posts
+  values:
+    layout: post
+    comments: true
+    toc: true
+    permalink: /:categories/:title/
+- scope:
+    path: _drafts
+  values:
+    comments: false
+- scope:
+    path: ''
+    type: tabs
+  values:
+    layout: page
+    permalink: /:title/
+sass:
+  style: compressed
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs:
+    - development
+exclude:
+- '*.gem'
+- '*.gemspec'
+- docs
+- tools
+- README.md
+- LICENSE
+- purgecss.js
+- '*.config.js'
+- package*.json
+- scripts
+- vendor
+- Gemfile
+- Gemfile.lock
+- _site-preview
+jekyll-archives:
+  enabled:
+  - categories
+  - tags
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
+repository: irunningm/irunningm.github.io

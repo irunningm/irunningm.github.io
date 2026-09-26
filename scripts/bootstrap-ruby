@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+BLOG_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source /etc/os-release
+if [[ "$(uname -m)" != x86_64 || "${UBUNTU_CODENAME:-${VERSION_CODENAME:-}}" != noble ]]; then
+  echo 'Supports Ubuntu 24.04 / Mint 22 x86_64. Otherwise install Ruby from .ruby-version using your Ruby manager.' >&2
+  exit 1
+fi
+if [[ -x "$BLOG_ROOT/.runtime/ruby/bin/ruby" ]]; then
+  echo 'Project-local Ruby already exists.'
+  exit 0
+fi
+BLOG_DOWNLOAD="$(mktemp -d)"
+trap 'rm -rf -- "$BLOG_DOWNLOAD"' EXIT
+curl -fL --retry 3 'https://github.com/ruby/ruby-builder/releases/download/ruby-3.3.11/ruby-3.3.11-ubuntu-24.04-x64.tar.gz' -o "$BLOG_DOWNLOAD/ruby.tar.gz"
+echo "b8a4aa67f34b7747674453fa7b67fd3181b47645af0a6a98743743fd6fa938ec  $BLOG_DOWNLOAD/ruby.tar.gz" | sha256sum -c -
+mkdir -p "$BLOG_ROOT/.runtime/ruby"
+tar -xzf "$BLOG_DOWNLOAD/ruby.tar.gz" --strip-components=1 -C "$BLOG_ROOT/.runtime/ruby"
+echo 'Ruby installed locally. Next: ./scripts/blog setup'

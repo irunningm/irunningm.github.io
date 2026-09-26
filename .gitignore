@@ -1,4 +1,10 @@
 _site
 .sass-cache
 .jekyll-metadata
-Gemfile.lock.claude/
+.claude/
+.bundle/
+.runtime/
+vendor/
+.jekyll-cache/
+_site-preview/
+*.log

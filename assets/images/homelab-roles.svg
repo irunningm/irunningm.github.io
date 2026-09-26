@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">两条独立工作线，按需使用公共资源</title>
+  <desc id="desc">Linux 笔记本与 Mac mini 各自独立工作。Linux 负责轻量开发、脚本和日常工作，Mac 负责主力开发与计算。两边均可按需使用群晖的存储与媒体、甲骨文的常驻应用和搬瓦工的代理服务。连线只表示职责关系，访问与备份仍需逐项核实。远程连接是可选工具。</desc>
+  <defs>
+    <symbol id="laptop" viewBox="0 0 24 24">
+      <rect x="4" y="3" width="16" height="12" rx="2"/>
+      <path d="M4 15 2 20h20l-2-5M9 20h6M8 8l-2 2 2 2m8-4 2 2-2 2"/>
+    </symbol>
+    <symbol id="mini" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="4"/>
+      <path d="M3 15h18M7 18h3M16 18h1"/>
+    </symbol>
+    <symbol id="nas" viewBox="0 0 24 24">
+      <rect x="3" y="2" width="18" height="20" rx="3"/>
+      <rect x="6" y="5" width="12" height="5" rx="1"/>
+      <rect x="6" y="13" width="12" height="5" rx="1"/>
+      <path d="M9 7.5h1M9 15.5h1"/>
+    </symbol>
+    <symbol id="cloud" viewBox="0 0 24 24">
+      <path d="M6 16a5 5 0 0 1-.5-10A6 6 0 0 1 17 6a4 4 0 0 1 1 8M12 11v8M9 16l3 3 3-3M6 22h12"/>
+    </symbol>
+    <symbol id="network" viewBox="0 0 24 24">
+      <rect x="8" y="2" width="8" height="6" rx="1.5"/>
+      <rect x="2" y="16" width="7" height="6" rx="1.5"/>
+      <rect x="15" y="16" width="7" height="6" rx="1.5"/>
+      <path d="M12 8v4M5.5 16v-4h13v4"/>
+    </symbol>
+  </defs>
+  <style>
+    text { font-family: 'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif; fill: #172b40; }
+    .heading { font-size: 34px; font-weight: 700; }
+    .title { font-size: 29px; font-weight: 700; }
+    .body { font-size: 24px; }
+    .note { font-size: 21px; fill: #4b5f70; }
+    .icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .wire { fill: none; stroke: #647b90; stroke-width: 3; }
+  </style>
+  <rect x="1" y="1" width="798" height="998" rx="20" fill="#f6f8fb" stroke="#d6dfe8" stroke-width="2"/>
+  <text x="40" y="55" class="note">家庭实验室 404 · 设备分工</text>
+  <text x="40" y="111" class="heading">两台电脑，各自独立工作</text>
+
+  <rect x="40" y="153" width="340" height="208" rx="14" fill="#edf5ff" stroke="#a6c4e8" stroke-width="2"/>
+  <rect x="420" y="153" width="340" height="208" rx="14" fill="#eef5ef" stroke="#a7c9b2" stroke-width="2"/>
+  <g aria-hidden="true"><rect x="60" y="171" width="44" height="44" rx="10" fill="#deebfa"/><use href="#laptop" x="65" y="176" width="34" height="34" class="icon" color="#35669a"/></g>
+  <g aria-hidden="true"><rect x="440" y="171" width="44" height="44" rx="10" fill="#dfece2"/><use href="#mini" x="445" y="176" width="34" height="34" class="icon" color="#426c50"/></g>
+  <text x="116" y="199" class="title">Linux 笔记本</text>
+  <text x="65" y="245" class="body">轻量开发 / 日常工作</text>
+  <text x="65" y="286" class="body">代码 · 脚本 · 终端</text>
+  <text x="65" y="331" class="note">可以独立编辑、运行项目</text>
+  <text x="496" y="199" class="title">Mac mini M4 Pro</text>
+  <text x="445" y="245" class="body">主力开发 / 计算</text>
+  <text x="445" y="286" class="body">编译 · 容器 · 模型推理</text>
+  <text x="445" y="331" class="note">自己的项目与开发环境</text>
+
+  <path d="M210 362V399H590V362 M400 399V438" class="wire"/>
+  <circle cx="400" cy="399" r="5" fill="#647b90"/>
+  <text x="400" y="477" class="title" text-anchor="middle">两边均可按需使用</text>
+
+  <rect x="40" y="508" width="720" height="101" rx="12" fill="#fff" stroke="#cbd6e2" stroke-width="2"/>
+  <rect x="40" y="625" width="720" height="101" rx="12" fill="#fff" stroke="#cbd6e2" stroke-width="2"/>
+  <rect x="40" y="742" width="720" height="101" rx="12" fill="#fff" stroke="#cbd6e2" stroke-width="2"/>
+  <g aria-hidden="true"><rect x="60" y="534" width="44" height="44" rx="10" fill="#e3f1f0"/><use href="#nas" x="65" y="539" width="34" height="34" class="icon" color="#2b716b"/></g>
+  <g aria-hidden="true"><rect x="60" y="651" width="44" height="44" rx="10" fill="#eeeafa"/><use href="#cloud" x="65" y="656" width="34" height="34" class="icon" color="#655197"/></g>
+  <g aria-hidden="true"><rect x="60" y="768" width="44" height="44" rx="10" fill="#f8eddf"/><use href="#network" x="65" y="773" width="34" height="34" class="icon" color="#8b6230"/></g>
+  <text x="122" y="550" class="title">群晖 NAS</text>
+  <text x="122" y="587" class="note">DS918+ / DX517</text>
+  <text x="350" y="550" class="body">存储 · 媒体 · 归档</text>
+  <text x="350" y="587" class="note">两台电脑及云端的备份待完善</text>
+  <text x="122" y="667" class="title">甲骨文 VPS</text>
+  <text x="122" y="704" class="note">常驻应用</text>
+  <text x="350" y="667" class="body">自动化 · RSS · Webhook</text>
+  <text x="350" y="704" class="note">应用独立于电脑持续运行</text>
+  <text x="122" y="784" class="title">搬瓦工 VPS</text>
+  <text x="122" y="821" class="note">轻量网络服务</text>
+  <text x="350" y="784" class="body">代理服务</text>
+  <text x="350" y="821" class="note">按实际需求使用</text>
+
+  <path d="M40 882H760" stroke="#cbd6e2" stroke-width="2"/>
+  <text x="40" y="924" class="body">电脑之间：远程连接可选，不是工作前提</text>
+  <text x="40" y="967" class="note">职责示意；连线不表示已完成接入或备份。2026.09</text>
+</svg>

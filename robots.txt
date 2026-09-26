@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://irunningm.github.io/sitemap.xml

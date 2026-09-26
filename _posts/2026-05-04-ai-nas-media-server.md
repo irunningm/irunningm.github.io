@@ -34,7 +34,7 @@ arr 全家桶是媒体自动化的核心：
 
 我用 docker-compose 把这些服务一股脑丢到 NAS 上。AI 帮我写好了 compose 文件，配好了环境变量、端口映射、数据卷挂载。一键 `docker compose up -d`，六个容器全部起来。
 
-代理是个关键问题。种子站基本都在海外，得走代理。但 qBittorrent 不能走代理——BT 流量走代理会被封。AI 帮我在每个服务的环境变量里单独配了 `HTTP_PROXY`，qBittorrent 则不设代理，完美解决。
+部分服务还需要配置代理，按各自的联网需求分别设置。
 
 ## 第二步：接入 Jellyfin
 
@@ -155,8 +155,13 @@ AI 的工作方式很像一个经验丰富的运维同事：你描述问题，�
 | NAS | 群晖 DS918+ (Intel J3455) |
 | 存储 | 18TB RAID5 + DX517 扩展柜 |
 | Docker 容器数 | 8 个（arr 全家桶 + Jellyfin + MoviePilot） |
-| 代理 | 路由器层面，HTTP 1081 / SOCKS5 1082 |
+| 网络配套 | 按需使用代理服务 |
 
 ---
 
 *本文由 MiMo-v2.5-pro 协助完成。文中提到的所有 Docker 配置、脚本编写、问题排查均由 AI 在对话中完成。*
+
+
+## 后续记录
+
+NAS 在整个家庭环境里的位置，见 [《给家里的设备分个工》]({% post_url 2026-09-26-a-home-for-my-development-environment %})。网络部分的折腾与后续修正，见 [NAS 2.5G 网卡排障记录]({% post_url 2026-05-10-nas-25g-network-debug %})。
