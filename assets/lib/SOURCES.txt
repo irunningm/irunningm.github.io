@@ -1,0 +1,49 @@
+博客静态资源来源与维护说明
+========================
+
+适配主题：jekyll-theme-chirpy 7.6.0（Gemfile.lock）
+主题来源：https://github.com/cotes2020/jekyll-theme-chirpy/tree/v7.6.0
+官方静态资源快照：
+https://github.com/cotes2020/chirpy-static-assets/tree/5cde3f0076b62e45fc68291893cf7d93e122adb7
+该提交是主题 v7.6.0 的 assets/lib 子模块固定版本。
+
+本目录直接保存所需文件，无需 git submodule 或 npm install。
+manifest.json 逐文件记录来源、大小和 SHA-256；来自官方快照的文件下载时
+额外核对了 Git blob SHA-1。上游文件和版权头保持原样。
+
+固定版本及许可证（许可证原文位于对应目录）
+------------------------------------------------------------
+Font Awesome Free 7.2.0   CSS: MIT；图标: CC BY 4.0；字体: SIL OFL 1.1
+Clipboard 2.0.11          MIT
+Day.js 1.11.21            MIT
+GLightbox 3.3.1           MIT
+Loading-attribute-polyfill 2.1.1  MIT
+Simple-Jekyll-Search 1.10.0      MIT
+Tocbot 4.36.8             MIT
+Bootstrap 5.3.8           MIT
+Lato、Source Sans Pro     SIL OFL 1.1（以官方快照固定字体文件）
+Chirpy static assets      MIT（本目录 LICENSE）
+
+官方快照之外的补充项均来自精确版本 npm 包：各库许可证、Day.js 中文 locale、
+Bootstrap CSS。下载地址见 manifest.json。Bootstrap 与主题 package.json 的
+5.3.8 基线一致；主题开发模式固定读取 origin.cors.bootstrap.css，因此在
+_data/origin/cors.yml 中把它指向本地，其余路径保留完整的官方配置结构并锁定版本。
+_data/origin/basic.yml 将 Day.js locale 改为 :LOCALE 占位符，以匹配博客的 zh-CN。
+
+范围与更新
+------------------------------------------------------------
+当前文章的字体、图标、搜索、日期、目录、图片灯箱、懒加载和复制功能均使用
+本地文件；头像另存于 assets/images/avatar.jpg，来自 2026-10-02 读取的
+https://github.com/irunningm.png，保留现有猫头像。旧 bio-photo.jpg 保留不动。
+统计服务按原配置独立加载，不影响正文、导航或搜索的资源本地化。
+
+现有文章未开启 math 或 mermaid。为避免引入大型未使用库，只为这两个可选
+功能保留精确版本 CDN 配置（MathJax 4.1.2 / Mermaid 11.15.0）。未来开启前，
+如需要离线可用，应将它们及运行时附属资源一并本地化，并验证浏览器请求。
+升级 Chirpy 时，应复核新的 origin/basic.yml、origin/cors.yml 和静态资源
+固定提交；替换文件后更新许可证与 manifest.json，构建并检查页面和 CSS
+引用，以及搜索、代码复制、目录和灯箱的实际行为。
+
+Bootstrap 的 sourceMappingURL 仅供开发者工具调试，未打包体积较大的 .map；
+不影响页面样式。GLightbox 上游对在线视频的播放器支持保留原样；若以后嵌入
+YouTube、Vimeo 等外部内容，仍需单独评估它们的网络依赖。

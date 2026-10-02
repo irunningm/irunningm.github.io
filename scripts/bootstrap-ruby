@@ -1,14 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 BLOG_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-source /etc/os-release
-if [[ "$(uname -m)" != x86_64 || "${UBUNTU_CODENAME:-${VERSION_CODENAME:-}}" != noble ]]; then
-  echo 'Supports Ubuntu 24.04 / Mint 22 x86_64. Otherwise install Ruby from .ruby-version using your Ruby manager.' >&2
+BLOG_RUBY_VERSION="$(tr -d '[:space:]' < "$BLOG_ROOT/.ruby-version")"
+if [[ -x "$BLOG_ROOT/.runtime/ruby/bin/ruby" ]]; then
+  if [[ "$("$BLOG_ROOT/.runtime/ruby/bin/ruby" -e 'print RUBY_VERSION')" == "$BLOG_RUBY_VERSION" ]]; then
+    echo 'Matching project-local Ruby already exists.'
+    exit 0
+  fi
+  echo 'Project-local Ruby has a different version. Move it aside before installing the required version.' >&2
   exit 1
 fi
-if [[ -x "$BLOG_ROOT/.runtime/ruby/bin/ruby" ]]; then
-  echo 'Project-local Ruby already exists.'
+if [[ "$(uname -s)" == Darwin ]]; then
+  if ! command -v ruby-build >/dev/null; then
+    echo 'Install the build tool first: brew install ruby-build' >&2
+    exit 1
+  fi
+  xcode-select -p >/dev/null
+  mkdir -p "$BLOG_ROOT/.runtime"
+  ruby-build "$BLOG_RUBY_VERSION" "$BLOG_ROOT/.runtime/ruby"
+  echo 'Ruby installed locally. Next: ./scripts/blog setup'
   exit 0
+fi
+if [[ "$(uname -s)" != Linux || ! -r /etc/os-release ]]; then
+  echo 'Install the version in .ruby-version with your Ruby manager.' >&2
+  exit 1
+fi
+source /etc/os-release
+if [[ "$(uname -m)" != x86_64 || "${UBUNTU_CODENAME:-${VERSION_CODENAME:-}}" != noble || "$BLOG_RUBY_VERSION" != 3.3.11 ]]; then
+  echo 'This prebuilt Ruby supports 3.3.11 on Ubuntu 24.04 / Mint 22 x86_64. Otherwise use your Ruby manager.' >&2
+  exit 1
 fi
 BLOG_DOWNLOAD="$(mktemp -d)"
 trap 'rm -rf -- "$BLOG_DOWNLOAD"' EXIT

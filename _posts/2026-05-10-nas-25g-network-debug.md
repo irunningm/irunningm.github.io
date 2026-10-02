@@ -1,6 +1,7 @@
 ---
 title: "给 NAS 加个 2.5G 网卡，结果折腾了一整晚"
 date: 2026-05-10
+permalink: /tech/nas-25g-network-debug/
 last_modified_at: 2026-09-26
 description: "一次 NAS 2.5G 网卡排障，以及后来的修正：停用 USB 网卡，重新压接水晶头后实现千兆。"
 excerpt_separator: "<!--more-->"
