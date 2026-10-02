@@ -1,0 +1,96 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "date"
+require "yaml"
+
+# These URLs are already public. Keep them reachable when editing categories,
+# titles, or filenames. Add future published URLs here when they become public.
+published_paths = %w[
+  /tech/ai-nas-media-server/
+  /tech/nas-25g-network-debug/
+  /tech/a-home-for-my-development-environment/
+].freeze
+
+root = File.expand_path("..", __dir__)
+errors = []
+permalinks = {}
+posts = Dir.glob(File.join(root, "_posts", "**", "*.{md,markdown,html}"))
+errors << "No posts found in _posts." if posts.empty?
+
+posts.each do |path|
+  name = path.delete_prefix("#{root}/")
+  front_matter = File.read(path, encoding: "UTF-8").match(/\A---\s*\r?\n(.*?)^---\s*$\n?/m)
+  unless front_matter
+    errors << "#{name}: missing YAML front matter."
+    next
+  end
+
+  begin
+    data = YAML.safe_load(front_matter[1], permitted_classes: [Date, Time])
+    unless data.is_a?(Hash)
+      errors << "#{name}: front matter must be a mapping."
+      next
+    end
+  rescue Psych::Exception, ArgumentError => e
+    errors << "#{name}: invalid YAML (#{e.message.lines.first.strip})."
+    next
+  end
+
+  unless data["title"].is_a?(String) && !data["title"].strip.empty?
+    errors << "#{name}: title must be a nonempty string."
+  end
+  begin
+    date = data.fetch("date")
+    raise ArgumentError unless [String, Date, Time].any? { |type| date.is_a?(type) }
+
+    Date.parse(date.to_s)
+  rescue KeyError, ArgumentError
+    errors << "#{name}: date must be an explicit valid date."
+  end
+
+  permalink = data["permalink"]
+  unless permalink.is_a?(String) && permalink.match?(%r{\A/(?:[^/\s?#:%]+/)+\z}) &&
+         permalink.split("/").none? { |part| [".", ".."].include?(part) }
+    errors << "#{name}: set a permanent root-relative permalink, such as /posts/my-post/."
+    next
+  end
+  if permalinks.key?(permalink)
+    errors << "#{name}: permalink #{permalink} duplicates #{permalinks[permalink]}."
+  end
+  permalinks[permalink] = name
+end
+
+published_paths.each do |path|
+  errors << "Published URL is missing from article metadata: #{path}" unless permalinks.key?(path)
+end
+
+if ARGV.first
+  require "nokogiri"
+  require "uri"
+
+  site = File.expand_path(ARGV.first)
+  published_paths.each do |path|
+    output = File.join(site, path.delete_prefix("/"), "index.html")
+    unless File.file?(output)
+      errors << "Published URL has no built page: #{path}"
+      next
+    end
+    page = Nokogiri::HTML(File.read(output, encoding: "UTF-8"))
+    canonical = page.at_css('link[rel="canonical"]')&.[]("href")
+    begin
+      unless canonical && URI.parse(canonical).path == path
+        errors << "#{path}: built canonical URL does not preserve the published path."
+      end
+    rescue URI::InvalidURIError
+      errors << "#{path}: invalid canonical URL."
+    end
+  end
+end
+
+unless errors.empty?
+  warn errors.join("\n")
+  exit 1
+end
+
+puts "Article checks passed (#{posts.length} posts, #{published_paths.length} published URLs)."

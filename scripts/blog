@@ -5,42 +5,71 @@ cd "$BLOG_ROOT"
 if [[ -x "$BLOG_ROOT/.runtime/ruby/bin/ruby" ]]; then
   BLOG_RUBY="$BLOG_ROOT/.runtime/ruby"
   export PATH="$BLOG_RUBY/bin:$PATH"
-  export LD_LIBRARY_PATH="$BLOG_RUBY/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-  export RUBYLIB="$BLOG_RUBY/lib/ruby/3.3.0:$BLOG_RUBY/lib/ruby/3.3.0/x86_64-linux${RUBYLIB:+:$RUBYLIB}"
+  if [[ "$(uname -s)" == Linux ]]; then
+    export LD_LIBRARY_PATH="$BLOG_RUBY/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    export RUBYLIB="$BLOG_RUBY/lib/ruby/3.3.0:$BLOG_RUBY/lib/ruby/3.3.0/x86_64-linux${RUBYLIB:+:$RUBYLIB}"
+  fi
 fi
 if ! command -v ruby >/dev/null; then
   echo 'Ruby is missing. See README.md for setup instructions.' >&2
   exit 1
 fi
+BLOG_RUBY_VERSION="$(tr -d '[:space:]' < .ruby-version)"
+if [[ "$(ruby -e 'print RUBY_VERSION')" != "$BLOG_RUBY_VERSION" ]]; then
+  echo "Ruby $BLOG_RUBY_VERSION is required. Run ./scripts/bootstrap-ruby or select that version with your Ruby manager." >&2
+  exit 1
+fi
+BLOG_BUNDLER_VERSION="$(awk '/BUNDLED WITH/{getline; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print; exit}' Gemfile.lock)"
+if [[ -z "$BLOG_BUNDLER_VERSION" ]]; then
+  echo 'Gemfile.lock must specify BUNDLED WITH.' >&2
+  exit 1
+fi
 export BUNDLE_PATH="$BLOG_ROOT/vendor/bundle"
 export BUNDLE_APP_CONFIG="$BLOG_ROOT/.bundle"
 export BUNDLE_USER_HOME="$BLOG_ROOT/.bundle/user"
+export BUNDLE_FROZEN=true
+# Use normal process execution: Bundler 2.5's shebang optimization compares
+# binary data with the UTF-8 path of this project-local Ruby.
+export BUNDLE_DISABLE_EXEC_LOAD=true
 export GEM_HOME="$BLOG_ROOT/.runtime/gems"
-export GEM_PATH="$GEM_HOME:$(ruby -rrbconfig -e 'print RbConfig::CONFIG["rubylibprefix"] + "/gems/" + RbConfig::CONFIG["ruby_version"]')"
+export GEM_PATH="$GEM_HOME:$(ruby -rrubygems -e 'print Gem.default_dir')"
 export PATH="$GEM_HOME/bin:$PATH"
-blog_bundle() { ruby -S bundle "$@"; }
+blog_bundle() { ruby -S bundle "_${BLOG_BUNDLER_VERSION}_" "$@"; }
 case "${1:-serve}" in
   setup)
-    if ! ruby -rbundler -e 'puts Bundler::VERSION' >/dev/null 2>&1; then
-      ruby -S gem install bundler -v 2.5.22 --no-document
+    # Older RubyGems cannot unpack UTF-8 gem filenames under a Chinese path.
+    # Upgrade only the project-local runtime; leave managed/system Rubies alone.
+    if ! ruby -rrubygems -e 'exit(Gem::Version.new(Gem::VERSION) >= Gem::Version.new("3.6.9") ? 0 : 1)'; then
+      if [[ ! -x "$BLOG_ROOT/.runtime/ruby/bin/ruby" ]]; then
+        echo 'RubyGems 3.6.9 or newer is required. Update your managed RubyGems or use ./scripts/bootstrap-ruby.' >&2
+        exit 1
+      fi
+      ruby -S gem update --system 3.6.9 --no-document
+    fi
+    if ! ruby -e 'gem "bundler", ARGV.fetch(0)' "$BLOG_BUNDLER_VERSION" >/dev/null 2>&1; then
+      ruby -S gem install bundler -v "$BLOG_BUNDLER_VERSION" --no-document
     fi
     blog_bundle install --jobs 2 --retry 3
     ;;
   build)
     shift
+    blog_bundle exec ruby scripts/check-content
     JEKYLL_ENV=production blog_bundle exec jekyll build --strict_front_matter "$@"
     ;;
   preview-build)
     shift
+    blog_bundle exec ruby scripts/check-content
     blog_bundle exec jekyll build --config _config.yml,_config.local.yml --drafts --strict_front_matter "$@"
     ;;
   check)
     shift
+    blog_bundle exec ruby scripts/check-content "${1:-_site}"
     blog_bundle exec htmlproofer "${1:-_site}" --disable-external --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
     ;;
   serve)
     shift || true
-    blog_bundle exec jekyll serve --config _config.yml,_config.local.yml --drafts --host 127.0.0.1 --port 4000 "$@"
+    blog_bundle exec ruby scripts/check-content
+    blog_bundle exec jekyll serve --config _config.yml,_config.local.yml --drafts --strict_front_matter --host 127.0.0.1 --port 4000 "$@"
     ;;
   *) echo 'Usage: scripts/blog {setup|build|preview-build|check|serve}' >&2; exit 2 ;;
 esac

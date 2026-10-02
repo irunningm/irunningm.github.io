@@ -38,7 +38,7 @@ pageviews:
   provider: null
 theme_mode: null
 cdn: null
-avatar: https://github.com/irunningm.png
+avatar: /assets/images/avatar.jpg
 social_preview_image: null
 toc: true
 actions:
@@ -65,7 +65,7 @@ comments:
     reactions_enabled: null
 assets:
   self_host:
-    enabled: null
+    enabled: true
     env: null
 pwa:
   enabled: true

@@ -1,6 +1,7 @@
 ---
 title: "给家里的设备分个工"
 date: 2026-09-26
+permalink: /tech/a-home-for-my-development-environment/
 pin: true
 description: "我的家庭实验室分工：Linux 笔记本与 Mac mini 各自独立开发，按需使用 NAS 和云端服务，逐步完善备份。"
 excerpt: "Linux 笔记本和 Mac mini 各自是一条工作线，群晖和两台 VPS 提供按需使用的存储与服务。"

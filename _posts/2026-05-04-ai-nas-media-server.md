@@ -1,6 +1,7 @@
 ---
 title: "我让 AI 帮我在群晖 NAS 上搭了一套完整的媒体服务器"
 date: 2026-05-04
+permalink: /tech/ai-nas-media-server/
 excerpt_separator: "<!--more-->"
 categories:
   - Tech
